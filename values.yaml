@@ -51,7 +51,7 @@ deployment:
 
   image:
     # -- Container image registry host name
-    registry: "docker.wso2.com"
+    registry: "wso2"
     # -- Container image repository name
     repository: "wso2is"
     # -- Container image digest
