@@ -42,7 +42,7 @@ spec:
         checksum.log4j.properties: {{ include (print $.Template.BasePath "/cm-log4j2-properties.yaml") . | sha256sum }}
         checksum.entrypoint.sh: {{ include (print $.Template.BasePath "/cm-entrypoint.yaml") . | sha256sum }}
         checksum.thrift-authentication.xml: {{ include (print $.Template.BasePath "/cm-thrift-authentication-xml.yaml") . | sha256sum }}
-        container.apparmor.security.beta.kubernetes.io/wso2is: {{ .Values.deployment.apparmor.profile }}
+#        container.apparmor.security.beta.kubernetes.io/wso2is: {{ .Values.deployment.apparmor.profile }}
     spec:
       securityContext:
         runAsUser: {{ .Values.deployment.securityContext.runAsUser }}
@@ -184,6 +184,8 @@ spec:
           {{- toYaml .Values.deployment.extraVolumeMounts | nindent 12 }}
         {{- end }}
       serviceAccountName: {{ template "..fullname" . }}
+      imagePullSecrets:
+      - name: regcred
       {{- if .Values.deployment.image.imagePullSecret }}
       imagePullSecrets:
         - name: { { .Values.wso2.deployment.image.imagePullSecret }}

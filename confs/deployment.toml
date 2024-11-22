@@ -43,7 +43,9 @@ type = {{ .Values.deploymentToml.userStore.type | quote }}
 
 [database.identity_db]
 type = {{ .Values.deploymentToml.database.identity.type | quote }}
-url = {{ .Values.deploymentToml.database.identity.url | quote }}
+hostname = {{ .Values.deploymentToml.database.identity.hostname | quote }}
+name = {{ .Values.deploymentToml.database.identity.name | quote }}
+port = {{ .Values.deploymentToml.database.identity.port | quote }}
 {{- if .Values.deployment.secretStore.enabled }}
 username = "$secret{database_identity_username}"
 password = "$secret{database_identity_password}"
@@ -61,7 +63,9 @@ driver = {{ .Values.deploymentToml.database.identity.driver | quote }}
 
 [database.shared_db]
 type = {{ .Values.deploymentToml.database.shared.type | quote }}
-url = {{ .Values.deploymentToml.database.shared.url | quote }}
+hostname = {{ .Values.deploymentToml.database.shared.hostname | quote }}
+name = {{ .Values.deploymentToml.database.shared.name | quote }}
+port = {{ .Values.deploymentToml.database.shared.port | quote }}
 {{- if .Values.deployment.secretStore.enabled }}
 username = "$secret{database_shared_username}"
 password = "$secret{database_shared_password}"
@@ -79,7 +83,9 @@ driver = {{ .Values.deploymentToml.database.shared.driver | quote }}
 
 [datasource.WSO2ConsentDS]
 id="WSO2CONSENT_DB"
-url = {{ .Values.deploymentToml.database.consent.url | quote }}
+hostname = {{ .Values.deploymentToml.database.consent.hostname | quote }}
+name = {{ .Values.deploymentToml.database.consent.name | quote }}
+port = {{ .Values.deploymentToml.database.consent.port | quote }}
 type = {{ .Values.deploymentToml.database.consent.type | quote }}
 {{- if .Values.deployment.secretStore.enabled }}
 username = "$secret{database_consent_username}"
@@ -105,7 +111,9 @@ data_source = "WSO2USER_DB"
 
 [database.user]
 type = {{ .Values.deploymentToml.database.user.type | quote }}
-url = {{ .Values.deploymentToml.database.user.url | quote }}
+hostname = {{ .Values.deploymentToml.database.user.hostname | quote }}
+name = {{ .Values.deploymentToml.database.user.name | quote }}
+port = {{ .Values.deploymentToml.database.user.port | quote }}
 {{- if .Values.deployment.secretStore.enabled }}
 username = "$secret{database_user_username}"
 password = "$secret{database_user_password}"

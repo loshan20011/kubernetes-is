@@ -27,7 +27,7 @@ deployment:
     profile: "runtime/default"
   ingress:
     # -- Host name of the Identity server as Key Manager
-    hostName: "wso2is.com"
+    hostName: "d18wnleph4tc2o.cloudfront.net"
     # -- Ingress class name
     ingressClassName: "nginx"
     # -- K8s TLS secret for configured hostname
@@ -43,21 +43,22 @@ deployment:
       nginx.ingress.kubernetes.io/session-cookie-conditional-samesite-none: "true"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
       nginx.ingress.kubernetes.io/session-cookie-path: "/"
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      #nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       # Enable or disable proxy buffering proxy_buffering. By default, proxy buffering is disabled in the NGINX config(Ref: https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#proxy-buffering).
       nginx.ingress.kubernetes.io/proxy-buffering: "on"
       # Sets the size of the buffer proxy_buffer_size used for reading the first part of the response received from the proxied server. By default proxy buffer size is set as "64k".(Ref: https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#proxy-buffer-size)
       nginx.ingress.kubernetes.io/proxy-buffer-size: "64k"
+      nginx.ingress.kubernetes.io/ssl-redirect: "false"
 
   image:
     # -- Container image registry host name
-    registry: "wso2"
+    registry: "loshans"
     # -- Container image repository name
     repository: "wso2is"
     # -- Container image digest
     digest: ""
     # -- Container image tag. Either "tag" or "digest" should defined
-    tag: "7.0.0"
+    tag: "postgress"
     # -- Refer to the Kubernetes documentation on updating images (Ref: https://kubernetes.io/docs/concepts/containers/images/#updating-images)
     pullPolicy: "Always"
     # -- image pull secret name
@@ -133,12 +134,12 @@ deployment:
       # -- The minimum amount of memory that should be allocated for a Pod
       memory: "2Gi"
       # -- The minimum amount of CPU that should be allocated for a Pod
-      cpu: "2"
+      cpu: "1"
     limits:
       # -- The maximum amount of memory that should be allocated for a Pod
       memory: "4Gi"
       # -- The maximum amount of CPU that should be allocated for a Pod
-      cpu: "3"
+      cpu: "2"
     jvm:
       # -- JVM memory options
       memOpts: "-Xms2048m -Xmx2048m"
@@ -238,15 +239,19 @@ deploymentToml:
   database:
     identity:
       # -- The SQL server type(ex: mysql, mssql)
-      type: "h2"
+      type: "postgre"
+      # -- The database hostname
+      hostname: "wso2-is-dev-us-east-1-aurora-rds-cluster-db-instance-1.cvcrys1zedh5.us-east-1.rds.amazonaws.com"
+      # -- The database name
+      name: "identitydb"
       # -- The database username
-      username: "wso2carbon"
-      # -- The database JDBC URL
-      url: "jdbc:h2:./repository/database/WSO2IDENTITY_DB;DB_CLOSE_ON_EXIT=FALSE"
+      username: "aws_eks_new"
       # -- The password
-      password: "wso2carbon"
+      password: "L.oshxn_2001"
       # -- The database JDBC driver
-      driver: "org.h2.Driver"
+      driver: "org.postgresql.Driver"
+      # -- The database port
+      port: "5432"
       # -- The database pool options
       poolOptions:
 #        maxActive: "50"
@@ -257,15 +262,19 @@ deploymentToml:
 #        commitOnReturn: false
     shared:
       # -- The SQL server type(ex: mysql, mssql)
-      type: "h2"
+      type: "postgre"
+      # -- The database hostname
+      hostname: "wso2-is-dev-us-east-1-aurora-rds-cluster-db-instance-1.cvcrys1zedh5.us-east-1.rds.amazonaws.com"
+      # -- The database name
+      name: "shareddb"
       # -- The database username
-      username: "wso2carbon"
-      # -- The database JDBC URL
-      url: "jdbc:h2:./repository/database/WSO2SHARED_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000"
-      # -- The database password
-      password: "wso2carbon"
+      username: "aws_eks_new"
+      # -- The password
+      password: "L.oshxn_2001"
       # -- The database JDBC driver
-      driver: "org.h2.Driver"
+      driver: "org.postgresql.Driver"
+      # -- The database port
+      port: "5432"
       # -- The database pool options
       poolOptions:
 #          maxActive: "50"
@@ -276,15 +285,19 @@ deploymentToml:
 #          commitOnReturn: false
     user:
       # -- The SQL server type(ex: mysql, mssql)
-      type: "h2"
+      type: "postgre"
+      # -- The database hostname
+      hostname: "wso2-is-dev-us-east-1-aurora-rds-cluster-db-instance-1.cvcrys1zedh5.us-east-1.rds.amazonaws.com"
+      # -- The database name
+      name: "userdb"
       # -- The database username
-      username: "wso2carbon"
-      # -- The database JDBC URL
-      url: "jdbc:h2:./repository/database/WSO2SHARED_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000"
-      # -- The database password
-      password: "wso2carbon"
+      username: "aws_eks_new"
+      # -- The password
+      password: "L.oshxn_2001"
       # -- The database JDBC driver
-      driver: "org.h2.Driver"
+      driver: "org.postgresql.Driver"
+      # -- The database port
+      port: "5432"
       # -- The database pool options
       poolOptions:
 #          maxActive: "50"
@@ -294,16 +307,20 @@ deploymentToml:
 #          defaultAutoCommit: true
 #          commitOnReturn: false
     consent:
-      # -- The SQL server type(ex: mysql, mssql)
-      type: "h2"
+# -- The SQL server type(ex: mysql, mssql)
+      type: "postgre"
+      # -- The database hostname
+      hostname: "wso2-is-dev-us-east-1-aurora-rds-cluster-db-instance-1.cvcrys1zedh5.us-east-1.rds.amazonaws.com"
+      # -- The database name
+      name: "consentdb"
       # -- The database username
-      username: "wso2carbon"
-      # -- The database JDBC URL
-      url: "jdbc:h2:./repository/database/WSO2IDENTITY_DB;DB_CLOSE_ON_EXIT=FALSE"
-      # -- The database password
-      password: "wso2carbon"
+      username: "aws_eks_new"
+      # -- The password
+      password: "L.oshxn_2001"
       # -- The database JDBC driver
-      driver: "org.h2.Driver"
+      driver: "org.postgresql.Driver"
+      # -- The database port
+      port: "5432"
       # -- The database pool options
       poolOptions:
 #        maxActive: "80"
