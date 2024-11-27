@@ -52,13 +52,13 @@ deployment:
 
   image:
     # -- Container image registry host name
-    registry: "loshans"
+    registry: "125035497591.dkr.ecr.us-east-1.amazonaws.com"
     # -- Container image repository name
-    repository: "wso2is"
+    repository: "wso2is-postgresql"
     # -- Container image digest
     digest: ""
     # -- Container image tag. Either "tag" or "digest" should defined
-    tag: "postgress"
+    tag: "latestpipe"
     # -- Refer to the Kubernetes documentation on updating images (Ref: https://kubernetes.io/docs/concepts/containers/images/#updating-images)
     pullPolicy: "Always"
     # -- image pull secret name
