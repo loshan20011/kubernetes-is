@@ -241,7 +241,7 @@ deploymentToml:
       # -- The SQL server type(ex: mysql, mssql)
       type: "postgre"
       # -- The database hostname
-      hostname: "wso2-is-dev-us-east-1-aurora-rds-cluster-db-instance-1.cvcrys1zedh5.us-east-1.rds.amazonaws.com"
+      hostname: "wso2-is-dev-us-east-1-aurora-rds-cluster-db-instance-1.cboqw2w26alq.us-east-1.rds.amazonaws.com"
       # -- The database name
       name: "identitydb"
       # -- The database username
@@ -264,7 +264,7 @@ deploymentToml:
       # -- The SQL server type(ex: mysql, mssql)
       type: "postgre"
       # -- The database hostname
-      hostname: "wso2-is-dev-us-east-1-aurora-rds-cluster-db-instance-1.cvcrys1zedh5.us-east-1.rds.amazonaws.com"
+      hostname: "wso2-is-dev-us-east-1-aurora-rds-cluster-db-instance-1.cboqw2w26alq.us-east-1.rds.amazonaws.com"
       # -- The database name
       name: "shareddb"
       # -- The database username
@@ -287,7 +287,7 @@ deploymentToml:
       # -- The SQL server type(ex: mysql, mssql)
       type: "postgre"
       # -- The database hostname
-      hostname: "wso2-is-dev-us-east-1-aurora-rds-cluster-db-instance-1.cvcrys1zedh5.us-east-1.rds.amazonaws.com"
+      hostname: "wso2-is-dev-us-east-1-aurora-rds-cluster-db-instance-1.cboqw2w26alq.us-east-1.rds.amazonaws.com"
       # -- The database name
       name: "userdb"
       # -- The database username
@@ -310,7 +310,7 @@ deploymentToml:
 # -- The SQL server type(ex: mysql, mssql)
       type: "postgre"
       # -- The database hostname
-      hostname: "wso2-is-dev-us-east-1-aurora-rds-cluster-db-instance-1.cvcrys1zedh5.us-east-1.rds.amazonaws.com"
+      hostname: "wso2-is-dev-us-east-1-aurora-rds-cluster-db-instance-1.cboqw2w26alq.us-east-1.rds.amazonaws.com"
       # -- The database name
       name: "consentdb"
       # -- The database username
