@@ -52,7 +52,7 @@ deployment:
 
   image:
     # -- Container image registry host name
-    registry: "125035497591.dkr.ecr.us-east-1.amazonaws.com"
+    registry: "302263080987.dkr.ecr.us-east-1.amazonaws.com"
     # -- Container image repository name
     repository: "wso2is-postgresql"
     # -- Container image digest
