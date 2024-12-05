@@ -27,7 +27,7 @@ deployment:
     profile: "runtime/default"
   ingress:
     # -- Host name of the Identity server as Key Manager
-    hostName: "d18wnleph4tc2o.cloudfront.net"
+    hostName: "d19ezs86pla41a.cloudfront.net"
     # -- Ingress class name
     ingressClassName: "nginx"
     # -- K8s TLS secret for configured hostname
