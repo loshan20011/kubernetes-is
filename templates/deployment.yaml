@@ -42,6 +42,9 @@ spec:
         checksum.log4j.properties: {{ include (print $.Template.BasePath "/cm-log4j2-properties.yaml") . | sha256sum }}
         checksum.entrypoint.sh: {{ include (print $.Template.BasePath "/cm-entrypoint.yaml") . | sha256sum }}
         checksum.thrift-authentication.xml: {{ include (print $.Template.BasePath "/cm-thrift-authentication-xml.yaml") . | sha256sum }}
+        #secrets.k8s.aws/sidecarInjectorWebhook: enabled
+        secret.k8s.aws/secret-name: INTERNAL-KEYSTORE-PASSWORD-DECRYPTED
+        secret.k8s.aws/region: us-east-1 
 #        container.apparmor.security.beta.kubernetes.io/wso2is: {{ .Values.deployment.apparmor.profile }}
     spec:
       securityContext:
@@ -65,6 +68,41 @@ spec:
                       values:
                         - {{ .Release.Name }}
                 topologyKey: topology.kubernetes.io/zone
+      initContainers:
+       - name: aws-secrets-manager
+         image: loshans/secret-access-init:latest
+         env:
+            - name: AWS_REGION
+              valueFrom:
+               fieldRef: 
+                 fieldPath: metadata.annotations['secret.k8s.aws/region']
+            - name: SECRET_NAME
+              valueFrom:
+               fieldRef:
+                 fieldPath: metadata.annotations['secret.k8s.aws/secret-name']
+         volumeMounts:
+           - name: vol
+             mountPath: /tmp
+         securityContext:
+           allowPrivilegeEscalation: false
+           # File system should be read write to cater runtime writes to the configs, DB files, etc...
+           readOnlyRootFilesystem: false
+           runAsNonRoot: true
+           capabilities:
+             drop:
+               - all
+       #initContainers:
+       # - name: fetch-secrets-init
+       #   image: amazon/aws-cli:2.13.11
+       #    command: ["/bin/sh", "-c"]
+       #   args: 
+       #     - |
+       #       echo "Running fetch-secrets-script.sh..."
+       #       /scripts/fetch-secrets.sh
+       #       echo "Secrets fetched successfully."
+       #   volumeMounts:
+       #     - name: script-volume
+       #       mountPath: /scripts
       containers:
         - name: wso2is
           {{- if .Values.deployment.image.digest }}
@@ -126,6 +164,12 @@ spec:
               drop:
                 - all
           env:
+            #- name: demo_secret
+            #  valueFrom:
+            #    secretKeyRef:
+            #      name: demo-secret
+            #      key: INTERNAL-KEYSTORE-PASSWORD-DECRYPTED
+            #      optional: false
             - name: NODE_IP
               valueFrom:
                 fieldRef:
@@ -165,10 +209,16 @@ spec:
             - name: {{ template "..fullname" . }}-secret-config-properties
               mountPath: /home/wso2carbon/wso2-config-volume/repository/conf/security/secret-conf.properties
               subPath: secret-conf.properties
-            - name: secrets-volume
-              mountPath: /mnt/secrets-store
-              readOnly: true
+            #- name: secrets-volume
+            #  mountPath: /mnt/secrets-store
+            #  readOnly: true
             {{- end }}
+            #- name: {{ template "..fullname" . }}-secret-config-properties
+            #  mountPath: /home/wso2carbon/wso2-config-volume/repository/conf/security/secret-conf.properties
+            #  subPath: secret-conf.properties
+            #- name: secrets-volume
+            #  mountPath: /home/wso2carbon/wso2is-7.0.0/password-tmp
+            #  subPath: secrets
             - name: {{ template "..fullname" . }}-entrypoint
               mountPath: /home/wso2carbon/docker-entrypoint.sh
               subPath: docker-entrypoint.sh
@@ -179,11 +229,15 @@ spec:
             - name: runtime-persistent-data-storage
               mountPath: /home/wso2carbon/{{ .Values.deployment.productPackName }}-{{ .Values.deployment.buildVersion }}/repository/deployment/server/userstores
               subPath: {{ .Values.deployment.persistence.subPaths.userstores }}
+            - name: vol
+              mountPath: /home/wso2carbon/wso2is-7.0.0/password-tmp
+              subPath: password-tmp
+              readOnly: false
             {{- end }}
         {{- if .Values.deployment.extraVolumeMounts }}
           {{- toYaml .Values.deployment.extraVolumeMounts | nindent 12 }}
         {{- end }}
-      serviceAccountName: {{ template "..fullname" . }}
+      serviceAccountName: secret-manager-access
       imagePullSecrets:
       - name: regcred
       {{- if .Values.deployment.image.imagePullSecret }}
@@ -197,6 +251,8 @@ spec:
         {{- if .Values.deployment.extraVolumes }}
           {{ toYaml .Values.deployment.extraVolumes | nindent 8 }}
         {{- end }}
+        - name: vol
+          emptyDir: {}
         - name: {{ template "..fullname" . }}-deployment-toml
           configMap:
             name: {{ template "..fullname" . }}-deployment-toml
@@ -211,21 +267,32 @@ spec:
           secret:
             secretName: {{ .Values.deployment.externalJKS.secretName }}
         {{- end }}
-        {{- if .Values.deployment.secretStore.enabled  }}
+        #- name: {{ template "..fullname" . }}-secret-config-properties
+          #configMap:
+            #    name: {{ template "..fullname" . }}-secret-config-properties
+        #- name: secrets-volume
+        #  emptyDir: {}
+        #  secret:
+          #  secretName: demo-secret
+       {{- if .Values.deployment.secretStore.enabled  }}
         - name: {{ template "..fullname" . }}-secret-config-properties
           configMap:
             name: {{ template "..fullname" . }}-secret-config-properties
-        - name: secrets-volume
-          csi:
-            driver: secrets-store.csi.k8s.io
-            readOnly: true
-            volumeAttributes:
-              secretProviderClass: {{ template "..fullname" . }}
-            {{- if .Values.deployment.secretStore.azure.enabled  }}
-            nodePublishSecretRef:
-              name: {{ .Values.deployment.secretStore.azure.nodePublishSecretRef }}
-            {{- end }}
-        {{- end }}
+              #- name: secrets-volume
+              # csi:
+              #driver: secrets-store.csi.k8s.io
+              #readOnly: true
+              #volumeAttributes:
+              #secretProviderClass: {{ template "..fullname" . }}
+              #{{- if .Values.deployment.secretStore.azure.enabled  }}
+              #nodePublishSecretRef:
+              #name: {{ .Values.deployment.secretStore.azure.nodePublishSecretRef }}
+              #{{- end }}
+      #  - name: script-volume
+      #    configMap:
+      #      name: fetch-secrets-script
+      #      defaultMode: 0755
+       {{- end }}
         - name: {{ template "..fullname" . }}-entrypoint
           configMap:
             name: {{ template "..fullname" . }}-entrypoint

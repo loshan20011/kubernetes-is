@@ -165,7 +165,8 @@ type =  {{ .Values.deploymentToml.keystore.internal.type | quote }}
 {{- if .Values.deployment.secretStore.enabled }}
 password = "$secret{keystore_internal_password}"
 {{- else }}
-password = {{ .Values.deploymentToml.keystore.internal.password | quote }}
+password = "$secret{internal_password}"
+#password = {{ .Values.deploymentToml.keystore.internal.password | quote }}
 {{- end }}
 alias = {{ .Values.deploymentToml.keystore.internal.alias | quote }}
 {{- if .Values.deployment.secretStore.enabled }}

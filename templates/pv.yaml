@@ -40,4 +40,28 @@ spec:
     - gid={{ .Values.deployment.securityContext.runAsUser }}
     - cache=strict
 {{- end }}
+apiVersion: {{ .Values.k8sKindAPIVersions.persistentVolume }}
+kind: PersistentVolume
+metadata:
+  name: {{ template "..fullname" . }}
+  labels:
+    purpose: {{ template "..fullname" . }}-identity-server-persistence
+spec:
+  accessModes:
+    - ReadWriteMany
+  capacity:
+    storage: {{ .Values.deployment.persistence.capacity }}
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  csi:
+    driver: efs.csi.aws.com
+    volumeHandle: fs-05e0aacdf4e2e5dfd
+  #  volumeAttributes:
+      #mounttargetip: "fsmt-06b7ffbffdd00ecad"
+  #mountOptions:
+  #  - dir_mode=0777
+  #  - file_mode=0777
+  #  - uid={{ .Values.deployment.securityContext.runAsUser }}
+  #  - gid={{ .Values.deployment.securityContext.runAsUser }}
+  #  - cache=strict
 {{- end }}

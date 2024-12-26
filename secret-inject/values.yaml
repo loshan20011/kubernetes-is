@@ -1,0 +1,7 @@
+# Default values for secrets-inject
+# This is a YAML formatted file
+# Declare variables to be passed into your templates
+
+replicaCount: 1
+nameOveride: ""
+admissionControllerImage: "docker.io/jicowan/jicowan_aws-secrets-manager:v0.3"

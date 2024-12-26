@@ -27,7 +27,7 @@ deployment:
     profile: "runtime/default"
   ingress:
     # -- Host name of the Identity server as Key Manager
-    hostName: "d19ezs86pla41a.cloudfront.net"
+    hostName: "d18oy935wzv7p5.cloudfront.net"
     # -- Ingress class name
     ingressClassName: "nginx"
     # -- K8s TLS secret for configured hostname
@@ -155,12 +155,12 @@ deployment:
   enableCorrelationLogs: false
   externalJKS:
     # -- Mount external  keystore and trustores
-    enabled: false
+    enabled: true
     # -- K8s secret name which contains JKS files
     secretName: "keystores"
   persistence:
     # -- Enable persistence for artifact sharing
-    enabled: false
+    enabled: true
     subPaths:
       # -- Azure storage account tenants file share path
       tenants: "tenants"
@@ -168,7 +168,7 @@ deployment:
       userstores: "userstores"
     azure:
       # -- Enable persistence for artifact sharing using Azure file share
-      enabled: true
+      enabled: false
       # -- Azure Storage Account credentials to access the file shares
       # -- Ref: https://docs.microsoft.com/en-us/azure/aks/azure-files-volume#create-a-kubernetes-secret
       # -- Names of Azure File shares for persisted data
@@ -179,7 +179,7 @@ deployment:
     capacity: 100Gi
   secretStore:
     # -- Enable secure vault with secret store CSI driver
-    enabled: false
+    enabled: true
     azure:
       # -- Enable Azure Key Vault integration.
       enabled: true
@@ -241,11 +241,11 @@ deploymentToml:
       # -- The SQL server type(ex: mysql, mssql)
       type: "postgre"
       # -- The database hostname
-      hostname: "wso2-is-dev-us-east-1-aurora-rds-cluster-db-instance-1.cboqw2w26alq.us-east-1.rds.amazonaws.com"
+      hostname: "pic-poc-postgresql-dev-useast1-aurora-rds-cluster-db-instance-1.cboqw2w26alq.us-east-1.rds.amazonaws.com"
       # -- The database name
       name: "identitydb"
       # -- The database username
-      username: "aws_eks_new"
+      username: "identity_server_eks"
       # -- The password
       password: "L.oshxn_2001"
       # -- The database JDBC driver
@@ -264,11 +264,11 @@ deploymentToml:
       # -- The SQL server type(ex: mysql, mssql)
       type: "postgre"
       # -- The database hostname
-      hostname: "wso2-is-dev-us-east-1-aurora-rds-cluster-db-instance-1.cboqw2w26alq.us-east-1.rds.amazonaws.com"
+      hostname: "pic-poc-postgresql-dev-useast1-aurora-rds-cluster-db-instance-1.cboqw2w26alq.us-east-1.rds.amazonaws.com"
       # -- The database name
       name: "shareddb"
       # -- The database username
-      username: "aws_eks_new"
+      username: "identity_server_eks"
       # -- The password
       password: "L.oshxn_2001"
       # -- The database JDBC driver
@@ -287,11 +287,11 @@ deploymentToml:
       # -- The SQL server type(ex: mysql, mssql)
       type: "postgre"
       # -- The database hostname
-      hostname: "wso2-is-dev-us-east-1-aurora-rds-cluster-db-instance-1.cboqw2w26alq.us-east-1.rds.amazonaws.com"
+      hostname: "pic-poc-postgresql-dev-useast1-aurora-rds-cluster-db-instance-1.cboqw2w26alq.us-east-1.rds.amazonaws.com"
       # -- The database name
       name: "userdb"
       # -- The database username
-      username: "aws_eks_new"
+      username: "identity_server_eks"
       # -- The password
       password: "L.oshxn_2001"
       # -- The database JDBC driver
@@ -310,11 +310,11 @@ deploymentToml:
 # -- The SQL server type(ex: mysql, mssql)
       type: "postgre"
       # -- The database hostname
-      hostname: "wso2-is-dev-us-east-1-aurora-rds-cluster-db-instance-1.cboqw2w26alq.us-east-1.rds.amazonaws.com"
+      hostname: "pic-poc-postgresql-dev-useast1-aurora-rds-cluster-db-instance-1.cboqw2w26alq.us-east-1.rds.amazonaws.com"
       # -- The database name
       name: "consentdb"
       # -- The database username
-      username: "aws_eks_new"
+      username: "identity_server_eks"
       # -- The password
       password: "L.oshxn_2001"
       # -- The database JDBC driver
@@ -332,23 +332,23 @@ deploymentToml:
 #        defaultAutoCommit: false
   keystore:
     tls:
-      fileName: "wso2carbon.jks"
+      fileName: "tls.jks"
       type: "JKS"
-      password: "wso2carbon"
+      password: "L.oshxn_2001"
       alias: "wso2carbon"
-      keyPassword: "wso2carbon"
+      keyPassword: "L.oshxn_2001"
     primary:
-      fileName: "wso2carbon.jks"
+      fileName: "primary.jks"
       type: "JKS"
-      password: "wso2carbon"
+      password: "L.oshxn_2001"
       alias: "wso2carbon"
-      keyPassword: "wso2carbon"
+      keyPassword: "L.oshxn_2001"
     internal:
-      fileName: "wso2carbon.jks"
+      fileName: "internal.jks"
       type: "JKS"
-      password: "wso2carbon"
+      password: "L.oshxn_2001"
       alias: "wso2carbon"
-      keyPassword: "wso2carbon"
+      keyPassword: "L.oshxn_2001"
   truststore:
     fileName: "client-truststore.jks"
     type: "JKS"
