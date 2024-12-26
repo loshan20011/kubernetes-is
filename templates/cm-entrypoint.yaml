@@ -57,11 +57,11 @@ data:
     
     {{- if .Values.deployment.secretStore.enabled }}
     # copy the decrypted internal keystore password to the password-tmp file
-    chmod +rwx /home/wso2carbon/wso2is-7.0.0/password-tmp
-    ls -la /home/wso2carbon/wso2is-7.0.0
-    cat /home/wso2carbon/wso2is-7.0.0/password-tmp
+    #chmod +rwx /home/wso2carbon/wso2is-7.0.0/password-tmp
+    #ls -la /home/wso2carbon/wso2is-7.0.0
+    #cat /home/wso2carbon/wso2is-7.0.0/password-tmp
     #mv /home/wso2carbon/wso2is-7.0.0/password-tmp /home/wso2carbon/wso2is-7.0.0/password-tmp
-    #cp /mnt/secrets-store/password-tmp ${WSO2_SERVER_HOME}/password-tmp
+    cp /mnt/secrets-store/password-tmp ${WSO2_SERVER_HOME}/password-tmp
     #cp /mnt/secrets-store/INTERNAL-KEYSTORE-PASSWORD-DECRYPTED ${WSO2_SERVER_HOME}/password-tmp
     {{- end }}
     

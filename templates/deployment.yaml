@@ -230,8 +230,7 @@ spec:
               mountPath: /home/wso2carbon/{{ .Values.deployment.productPackName }}-{{ .Values.deployment.buildVersion }}/repository/deployment/server/userstores
               subPath: {{ .Values.deployment.persistence.subPaths.userstores }}
             - name: vol
-              mountPath: /home/wso2carbon/wso2is-7.0.0/password-tmp
-              subPath: password-tmp
+              mountPath: /mnt/secrets-store
               readOnly: false
             {{- end }}
         {{- if .Values.deployment.extraVolumeMounts }}
