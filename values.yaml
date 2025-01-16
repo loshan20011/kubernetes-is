@@ -27,7 +27,7 @@ deployment:
     profile: "runtime/default"
   ingress:
     # -- Host name of the Identity server as Key Manager
-    hostName: "wso2is.com"
+    hostName: "dj8prfaevz7e6.cloudfront.net"
     # -- Ingress class name
     ingressClassName: "nginx"
     # -- K8s TLS secret for configured hostname
@@ -51,9 +51,9 @@ deployment:
 
   image:
     # -- Container image registry host name
-    registry: "docker.wso2.com"
+    registry: "302263080987.dkr.ecr.us-east-1.amazonaws.com"
     # -- Container image repository name
-    repository: "wso2is"
+    repository: "wso2is-postgresql"
     # -- Container image digest
     digest: ""
     # -- Container image tag. Either "tag" or "digest" should defined
@@ -154,12 +154,12 @@ deployment:
   enableCorrelationLogs: false
   externalJKS:
     # -- Mount external  keystore and trustores
-    enabled: false
+    enabled: true
     # -- K8s secret name which contains JKS files
     secretName: "keystores"
   persistence:
     # -- Enable persistence for artifact sharing
-    enabled: false
+    enabled: true
     subPaths:
       # -- Azure storage account tenants file share path
       tenants: "tenants"
@@ -178,12 +178,12 @@ deployment:
     capacity: 100Gi
     aws:
       # -- Enable persistence for artifact sharing using AWS EFS
-      enabled: false
+      enabled: true
       # -- EFS volume handle ID
-      volumeHandle: "fs-volumehandle"
+      volumeHandle: "fs-0a9581a742717552e"
   secretStore:
     # -- Enable secure vault with secret store CSI driver
-    enabled: false
+    enabled: true
     azure:
       # -- Enable Azure Key Vault integration.
       enabled: false
@@ -204,12 +204,12 @@ deployment:
       # -- The name of the Kubernetes secret that contains the service principal credentials to access Azure Key Vault. Ref: https://azure.github.io/secrets-store-csi-driver-provider-azure/docs/configurations/identity-access-modes/service-principal-mode/#configure-service-principal-to-access-keyvault
       nodePublishSecretRef: "azure-kv-secret-store-sp"
     aws: 
-      enabled: false
+      enabled: true
       secretManager:
         # -- AWS Secret Manager secret name of the internal keystore password
         secretName: "INTERNAL-KEYSTORE-PASSWORD-DECRYPTED"
         # -- Region of the deployment
-        region: "us-east-1"
+        region: "us-east-2"
 
 deploymentToml:
   server:
@@ -250,15 +250,15 @@ deploymentToml:
   database:
     identity:
       # -- The SQL server type(ex: mysql, mssql)
-      type: "h2"
+      type: "postgre"
       # -- The database username
-      username: "wso2carbon"
+      username: "identity_server_eks"
       # -- The database JDBC URL
-      url: "jdbc:h2:./repository/database/WSO2IDENTITY_DB;DB_CLOSE_ON_EXIT=FALSE"
+      url: "jdbc:postgre://pic-poc-postgresql-dev-useast2-aurora-rds-cluster-db-instance-1.cro2k4cw4do1.us-east-2.rds.amazonaws.com/identitydb:5432"
       # -- The password
       password: "wso2carbon"
       # -- The database JDBC driver
-      driver: "org.h2.Driver"
+      driver: "org.postgresql.Driver"
       # -- The database pool options
       poolOptions:
 #        maxActive: "50"
@@ -269,15 +269,15 @@ deploymentToml:
 #        commitOnReturn: false
     shared:
       # -- The SQL server type(ex: mysql, mssql)
-      type: "h2"
+      type: "postgre"
       # -- The database username
-      username: "wso2carbon"
+      username: "identity_server_eks"
       # -- The database JDBC URL
-      url: "jdbc:h2:./repository/database/WSO2SHARED_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000"
+      url: "jdbc:postgre://pic-poc-postgresql-dev-useast2-aurora-rds-cluster-db-instance-1.cro2k4cw4do1.us-east-2.rds.amazonaws.com/shareddb:5432"
       # -- The database password
       password: "wso2carbon"
       # -- The database JDBC driver
-      driver: "org.h2.Driver"
+      driver: "org.postgresql.Driver"
       # -- The database pool options
       poolOptions:
 #          maxActive: "50"
@@ -288,15 +288,15 @@ deploymentToml:
 #          commitOnReturn: false
     user:
       # -- The SQL server type(ex: mysql, mssql)
-      type: "h2"
+      type: "postgre"
       # -- The database username
-      username: "wso2carbon"
+      username: "identity_server_eks"
       # -- The database JDBC URL
-      url: "jdbc:h2:./repository/database/WSO2SHARED_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000"
+      url: "jdbc:postgre://pic-poc-postgresql-dev-useast2-aurora-rds-cluster-db-instance-1.cro2k4cw4do1.us-east-2.rds.amazonaws.com/userdb:5432"
       # -- The database password
       password: "wso2carbon"
       # -- The database JDBC driver
-      driver: "org.h2.Driver"
+      driver: "org.postgresql.Driver"
       # -- The database pool options
       poolOptions:
 #          maxActive: "50"
@@ -307,15 +307,15 @@ deploymentToml:
 #          commitOnReturn: false
     consent:
       # -- The SQL server type(ex: mysql, mssql)
-      type: "h2"
+      type: "postgre"
       # -- The database username
-      username: "wso2carbon"
+      username: "identity_server_eks"
       # -- The database JDBC URL
-      url: "jdbc:h2:./repository/database/WSO2IDENTITY_DB;DB_CLOSE_ON_EXIT=FALSE"
+      url: "jdbc:postgre://pic-poc-postgresql-dev-useast2-aurora-rds-cluster-db-instance-1.cro2k4cw4do1.us-east-2.rds.amazonaws.com/consentdb:5432"
       # -- The database password
       password: "wso2carbon"
       # -- The database JDBC driver
-      driver: "org.h2.Driver"
+      driver: "org.postgresql.Driver"
       # -- The database pool options
       poolOptions:
 #        maxActive: "80"
@@ -327,19 +327,19 @@ deploymentToml:
 #        defaultAutoCommit: false
   keystore:
     tls:
-      fileName: "wso2carbon.jks"
+      fileName: "keystore.jks"
       type: "JKS"
       password: "wso2carbon"
       alias: "wso2carbon"
       keyPassword: "wso2carbon"
     primary:
-      fileName: "wso2carbon.jks"
+      fileName: "primary.jks"
       type: "JKS"
       password: "wso2carbon"
       alias: "wso2carbon"
       keyPassword: "wso2carbon"
     internal:
-      fileName: "wso2carbon.jks"
+      fileName: "internal.jks"
       type: "JKS"
       password: "wso2carbon"
       alias: "wso2carbon"
