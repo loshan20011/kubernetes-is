@@ -57,7 +57,7 @@ deployment:
     # -- Container image digest
     digest: ""
     # -- Container image tag. Either "tag" or "digest" should defined
-    tag: "7.0.0"
+    tag: "latest"
     # -- Refer to the Kubernetes documentation on updating images (Ref: https://kubernetes.io/docs/concepts/containers/images/#updating-images)
     pullPolicy: "Always"
     # -- image pull secret name
