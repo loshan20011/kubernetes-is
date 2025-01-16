@@ -254,7 +254,7 @@ spec:
               name: {{ .Values.deployment.secretStore.azure.nodePublishSecretRef }}
             {{- end }}
         {{- end }}
-        {{- if .Values.deployment.secretStore.azure.enabled }}
+        {{- if .Values.deployment.secretStore.aws.enabled }}
         - name: secrets-volume
           emptyDir: {}
         {{- end }}
