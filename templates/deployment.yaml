@@ -44,8 +44,8 @@ spec:
         checksum.thrift-authentication.xml: {{ include (print $.Template.BasePath "/cm-thrift-authentication-xml.yaml") . | sha256sum }}
         #container.apparmor.security.beta.kubernetes.io/wso2is: {{ .Values.deployment.apparmor.profile }}
         {{- if .Values.deployment.secretStore.aws.enabled }}
-        secret.k8s.aws/secret-name: {{ .Values.secretStore.aws.secretManager.secretName }}
-        secret.k8s.aws/region: {{ .Values.secretStore.aws.secretManager.region }}
+        secret.k8s.aws/secret-name: {{ .Values.deployment.secretStore.aws.secretManager.secretName }}
+        secret.k8s.aws/region: {{ .Values.deployment.secretStore.aws.secretManager.region }}
         {{- end }}
     spec:
       securityContext:
@@ -253,6 +253,10 @@ spec:
             nodePublishSecretRef:
               name: {{ .Values.deployment.secretStore.azure.nodePublishSecretRef }}
             {{- end }}
+        {{- end }}
+        {{- if .Values.deployment.secretStore.azure.enabled }}
+        - name: secrets-volume
+          emptyDir: {}
         {{- end }}
         {{- end }}
         - name: {{ template "..fullname" . }}-entrypoint
