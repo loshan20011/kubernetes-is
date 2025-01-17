@@ -254,7 +254,7 @@ deploymentToml:
       # -- The database username
       username: "identity_server_eks"
       # -- The database JDBC URL
-      url: "jdbc:postgre://pic-poc-postgresql-dev-useast2-aurora-rds-cluster-db-instance-1.cro2k4cw4do1.us-east-2.rds.amazonaws.com/identitydb:5432"
+      url: "jdbc:postgresql://pic-poc-postgresql-dev-useast2-aurora-rds-cluster-db-instance-1.cro2k4cw4do1.us-east-2.rds.amazonaws.com:5432/identitydb"
       # -- The password
       password: "wso2carbon"
       # -- The database JDBC driver
@@ -273,7 +273,7 @@ deploymentToml:
       # -- The database username
       username: "identity_server_eks"
       # -- The database JDBC URL
-      url: "jdbc:postgre://pic-poc-postgresql-dev-useast2-aurora-rds-cluster-db-instance-1.cro2k4cw4do1.us-east-2.rds.amazonaws.com/shareddb:5432"
+      url: "jdbc:postgresql://pic-poc-postgresql-dev-useast2-aurora-rds-cluster-db-instance-1.cro2k4cw4do1.us-east-2.rds.amazonaws.com:5432/shareddb"
       # -- The database password
       password: "wso2carbon"
       # -- The database JDBC driver
@@ -292,7 +292,7 @@ deploymentToml:
       # -- The database username
       username: "identity_server_eks"
       # -- The database JDBC URL
-      url: "jdbc:postgre://pic-poc-postgresql-dev-useast2-aurora-rds-cluster-db-instance-1.cro2k4cw4do1.us-east-2.rds.amazonaws.com/userdb:5432"
+      url: "jdbc:postgresql://pic-poc-postgresql-dev-useast2-aurora-rds-cluster-db-instance-1.cro2k4cw4do1.us-east-2.rds.amazonaws.com:5432/userdb"
       # -- The database password
       password: "wso2carbon"
       # -- The database JDBC driver
@@ -311,7 +311,7 @@ deploymentToml:
       # -- The database username
       username: "identity_server_eks"
       # -- The database JDBC URL
-      url: "jdbc:postgre://pic-poc-postgresql-dev-useast2-aurora-rds-cluster-db-instance-1.cro2k4cw4do1.us-east-2.rds.amazonaws.com/consentdb:5432"
+      url: "jdbc:postgresql://pic-poc-postgresql-dev-useast2-aurora-rds-cluster-db-instance-1.cro2k4cw4do1.us-east-2.rds.amazonaws.com:5432/consentdb"
       # -- The database password
       password: "wso2carbon"
       # -- The database JDBC driver
