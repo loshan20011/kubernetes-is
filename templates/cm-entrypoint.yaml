@@ -60,7 +60,7 @@ data:
     cp /mnt/secrets-store/INTERNAL-KEYSTORE-PASSWORD-DECRYPTED ${WSO2_SERVER_HOME}/password-tmp
     {{- end }}
 
-    {{- if .Values.deployment.secretStore.azure.enabled }}
+    {{- if .Values.deployment.secretStore.aws.enabled }}
     mv /mnt/secrets-store/password-tmp ${WSO2_SERVER_HOME}/password-tmp
     {{- end }}
     

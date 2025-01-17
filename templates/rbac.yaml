@@ -14,11 +14,23 @@
 # specific language governing permissions and limitations
 # under the License.
 
+{{- if .Values.deployment.persistence.azure.enabled }}
 apiVersion: {{ .Values.k8sKindAPIVersions.serviceAccount }}
 kind: ServiceAccount
 metadata:
   name: {{ template "..fullname" . }}
   namespace : {{ .Release.Namespace }}
+{{- end }}
+
+{{- if .Values.deployment.persistence.aws.enabled }}
+apiVersion: {{ .Values.k8sKindAPIVersions.serviceAccount }}
+kind: ServiceAccount
+metadata:
+  name: {{ template "..fullname" . }}
+  namespace : {{ .Release.Namespace }}
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::302263080987:role/pic-poc-irsa-dev-useast2-iam-role
+{{- end }}
 
 ---
 
