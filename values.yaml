@@ -48,6 +48,9 @@ deployment:
       nginx.ingress.kubernetes.io/proxy-buffering: "on"
       # Sets the size of the buffer proxy_buffer_size used for reading the first part of the response received from the proxied server. By default proxy buffer size is set as "64k".(Ref: https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#proxy-buffer-size)
       nginx.ingress.kubernetes.io/proxy-buffer-size: "64k"
+  rbac:
+    annotations:
+      eks.amazonaws.com/role-arn: "arn:aws:iam::302263080987:role/pic-poc-irsa-dev-useast2-iam-role"
 
   image:
     # -- Container image registry host name

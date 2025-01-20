@@ -61,7 +61,7 @@ data:
     {{- end }}
 
     {{- if .Values.deployment.secretStore.aws.enabled }}
-    mv /mnt/secrets-store/password-tmp ${WSO2_SERVER_HOME}/password-tmp
+    cp /mnt/secrets-store/password-tmp ${WSO2_SERVER_HOME}/password-tmp
     {{- end }}
     
     # start WSO2 Carbon server

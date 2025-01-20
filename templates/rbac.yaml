@@ -29,7 +29,9 @@ metadata:
   name: {{ template "..fullname" . }}
   namespace : {{ .Release.Namespace }}
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::302263080987:role/pic-poc-irsa-dev-useast2-iam-role
+    {{- if .Values.deployment.rbac.annotations }}
+    {{- toYaml .Values.deployment.rbac.annotations | nindent 4 }}
+    {{- end }}
 {{- end }}
 
 ---
