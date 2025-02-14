@@ -18,8 +18,11 @@ apiVersion: {{ .Values.k8sKindAPIVersions.ingress }}
 kind: Ingress
 metadata:
   annotations:
-    {{- if .Values.deployment.ingress.annotations }}
-    {{- toYaml .Values.deployment.ingress.annotations | nindent 4 }}
+    {{- if .Values.deployment.ingress.aws.enabled }}
+    {{- toYaml .Values.deployment.ingress.aws.annotations | nindent 4 }}
+    {{- end }}
+    {{- if .Values.deployment.ingress.azure.enabled }}
+    {{- toYaml .Values.deployment.ingress.azure.annotations | nindent 4 }}
     {{- end }}
   namespace:  {{ .Release.Namespace }}
   name: {{ template "..fullname" . }}

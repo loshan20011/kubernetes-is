@@ -40,4 +40,33 @@ spec:
     - gid={{ .Values.deployment.securityContext.runAsUser }}
     - cache=strict
 {{- end }}
+
+{{- if .Values.deployment.persistence.aws.enabled }}
+apiVersion: {{ .Values.k8sKindAPIVersions.csi }}
+kind: CSIDriver
+metadata:
+  name: efs.csi.aws.com 
+  namespace : kube-system
+spec:
+  attachRequired: false
+
+---
+
+apiVersion: {{ .Values.k8sKindAPIVersions.persistentVolume }}
+kind: PersistentVolume
+metadata:
+  name: {{ template "..fullname" . }}
+  labels:
+    purpose: {{ template "..fullname" . }}-identity-server-persistence
+spec:
+  accessModes:
+    - ReadWriteMany
+  capacity:
+    storage: {{ .Values.deployment.persistence.capacity }}
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  csi:
+    driver: efs.csi.aws.com
+    volumeHandle: {{ .Values.deployment.persistence.aws.volumeHandle }}
+{{- end }}
 {{- end }}

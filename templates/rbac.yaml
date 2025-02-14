@@ -14,11 +14,25 @@
 # specific language governing permissions and limitations
 # under the License.
 
+{{- if .Values.deployment.persistence.azure.enabled }}
 apiVersion: {{ .Values.k8sKindAPIVersions.serviceAccount }}
 kind: ServiceAccount
 metadata:
   name: {{ template "..fullname" . }}
   namespace : {{ .Release.Namespace }}
+{{- end }}
+
+{{- if .Values.deployment.persistence.aws.enabled }}
+apiVersion: {{ .Values.k8sKindAPIVersions.serviceAccount }}
+kind: ServiceAccount
+metadata:
+  name: {{ template "..fullname" . }}
+  namespace : {{ .Release.Namespace }}
+  annotations:
+    {{- if .Values.deployment.rbac.annotations }}
+    {{- toYaml .Values.deployment.rbac.annotations | nindent 4 }}
+    {{- end }}
+{{- end }}
 
 ---
 
