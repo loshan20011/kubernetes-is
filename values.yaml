@@ -36,7 +36,7 @@ deployment:
     tlsSecretsName: "is-tls"
     # -- Enable Nginx rate limiting
     enableNginxRateLimit: false
-    commonAnnotations:
+    commonAnnotations: &commonAnnotations
       nginx.ingress.kubernetes.io/affinity: "cookie"
       nginx.ingress.kubernetes.io/session-cookie-name: "paf"
       nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"

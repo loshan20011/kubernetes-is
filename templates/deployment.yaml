@@ -44,10 +44,10 @@ spec:
         checksum.thrift-authentication.xml: {{ include (print $.Template.BasePath "/cm-thrift-authentication-xml.yaml") . | sha256sum }}
         {{- if .Values.deployment.apparmor.enabled }}
         container.apparmor.security.beta.kubernetes.io/wso2is: {{ .Values.deployment.apparmor.profile }}
+        {{- end }}
         {{- if .Values.deployment.secretStore.aws.enabled }}
         secret.k8s.aws/secret-name: {{ .Values.deployment.secretStore.aws.secretManager.secretName }}
         secret.k8s.aws/region: {{ .Values.deployment.secretStore.aws.secretManager.region }}
-        {{- end }}
         {{- end }}
     spec:
       securityContext:
@@ -198,7 +198,7 @@ spec:
               subPath: secret-conf.properties
             - name: secrets-volume
               mountPath: /mnt/secrets-store
-              readOnly: true
+              readOnly: false
             {{- end }}
             - name: {{ template "..fullname" . }}-entrypoint
               mountPath: /home/wso2carbon/docker-entrypoint.sh

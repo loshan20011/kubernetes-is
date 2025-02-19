@@ -42,16 +42,6 @@ spec:
 {{- end }}
 
 {{- if .Values.deployment.persistence.aws.enabled }}
-apiVersion: {{ .Values.k8sKindAPIVersions.csi }}
-kind: CSIDriver
-metadata:
-  name: efs.csi.aws.com 
-  namespace : kube-system
-spec:
-  attachRequired: false
-
----
-
 apiVersion: {{ .Values.k8sKindAPIVersions.persistentVolume }}
 kind: PersistentVolume
 metadata:
