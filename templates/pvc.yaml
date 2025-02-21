@@ -1,4 +1,5 @@
 {{- if .Values.deployment.persistence.enabled }}
+{{- if .Values.deployment.persistence.azure.enabled }}
 # Copyright (c) 2024, WSO2 LLC. (https://www.wso2.com) All Rights Reserved.
 #
 # WSO2 LLC. licenses this file to you under the Apache License,
@@ -30,4 +31,5 @@ spec:
     matchLabels:
       purpose: {{ template "..fullname" . }}-identity-server-persistence
   storageClassName: ""
+{{- end }}
 {{- end }}
