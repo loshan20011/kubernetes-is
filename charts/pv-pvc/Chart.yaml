@@ -1,0 +1,6 @@
+apiVersion: v2
+name: pv-pvc
+description: A Helm subchart for managing Persistent Volumes and Persistent Volume Claims.
+type: application
+version: 7.0.0-1
+appVersion: "7.0.0"
