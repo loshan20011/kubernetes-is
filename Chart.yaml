@@ -24,4 +24,4 @@ dependencies:
   - name: pv-pvc
     version: 7.0.0-1
     repository: file://charts/pv-pvc
-    condition: deployment.persistence.azure.enabled
+    condition: deployment.persistence.aws.enabled
