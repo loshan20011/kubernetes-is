@@ -58,4 +58,3 @@ Selector labels
 app.kubernetes.io/name: {{ include "..name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
-
