@@ -21,7 +21,7 @@ base_path = "https://$ref{server.hostname}:${carbon.management.port}"
 offset = {{ .Values.deploymentToml.server.offset | quote }}
 
 [transport.https.properties]
-proxyPort = {{ .Values.deploymentToml.transport.https.properties.proxyPort }}
+proxyPort = 443
 server = {{ .Values.deploymentToml.transport.https.properties.server | quote }}
 
 [transport.https.sslHostConfig.properties]
@@ -29,11 +29,10 @@ protocols={{ .Values.deploymentToml.transport.https.sslHostConfig.properties.pro
 ciphers={{ .Values.deploymentToml.transport.https.sslHostConfig.properties.ciphers | quote }}
 
 [super_admin]
+username = {{ .Values.deploymentToml.superAdmin.username | quote }}
 {{- if .Values.deployment.secretStore.enabled }}
-username = "$secret{super_admin_username}"
 password = "$secret{super_admin_password}"
 {{- else }}
-username = {{ .Values.deploymentToml.superAdmin.username | quote }}
 password = {{ .Values.deploymentToml.superAdmin.password | quote }}
 {{- end }}
 create_admin_account = {{ .Values.deploymentToml.superAdmin.createAdminAccount }}

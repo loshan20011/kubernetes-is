@@ -1,5 +1,4 @@
 {{- if .Values.deployment.persistence.enabled }}
-{{- if .Values.deployment.persistence.azure.enabled }}
 # Copyright (c) 2024, WSO2 LLC. (https://www.wso2.com) All Rights Reserved.
 #
 # WSO2 LLC. licenses this file to you under the Apache License,
@@ -16,20 +15,32 @@
 # specific language governing permissions and limitations
 # under the License.
 
-apiVersion: {{ .Values.k8sKindAPIVersions.persistentVolumeClaim }}
-kind: PersistentVolumeClaim
+{{- if .Values.deployment.persistence.aws.enabled }}
+apiVersion: {{ .Values.k8sKindAPIVersions.csi }}
+kind: CSIDriver
+metadata:
+  name: efs.csi.aws.com
+  namespace: kube-system
+spec:
+  attachRequired: false
+
+---
+
+apiVersion: {{ .Values.k8sKindAPIVersions.persistentVolume }}
+kind: PersistentVolume
 metadata:
   name: {{ template "..fullname" . }}
-  namespace : {{ .Release.Namespace }}
+  labels:
+    purpose: {{ template "..fullname" . }}-identity-server-persistence
 spec:
   accessModes:
     - ReadWriteMany
-  resources:
-    requests:
-      storage: {{ .Values.deployment.persistence.capacity }}
-  selector:
-    matchLabels:
-      purpose: {{ template "..fullname" . }}-identity-server-persistence
-  storageClassName: ""
+  capacity:
+    storage: {{ .Values.deployment.persistence.capacity }}
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  csi:
+    driver: efs.csi.aws.com
+    volumeHandle: {{ .Values.deployment.persistence.aws.volumeHandle }}
 {{- end }}
 {{- end }}
