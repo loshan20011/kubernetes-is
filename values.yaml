@@ -13,14 +13,12 @@
 # KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations
 # under the License.
-
 wso2:
   subscription:
     # -- WSO2 account username
     username: ""
     # -- WSO2 account password
     password: ""
-
 deployment:
   apparmor:
     # -- Flag to enable Apparmor
@@ -29,7 +27,7 @@ deployment:
     profile: "runtime/default"
   ingress:
     # -- Host name of the Identity server as Key Manager
-    hostName: "wso2is.com"
+    hostName: "d287cdo68uqd6e.cloudfront.net"
     # -- Ingress class name
     ingressClassName: "nginx"
     # -- K8s TLS secret for configured hostname
@@ -49,17 +47,16 @@ deployment:
     azure:
       enabled: false
       annotations:
-        <<: *commonAnnotations
+        !!merge <<: *commonAnnotations
         nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     aws:
       enabled: false
       annotations:
-        <<: *commonAnnotations
-        nginx.ingress.kubernetes.io/force-ssl-redirect: "false"     
+        !!merge <<: *commonAnnotations
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
   rbac:
     annotations:
       eks.amazonaws.com/role-arn: "null"
-
   image:
     # -- Container image registry host name
     registry: "docker.wso2.com"
@@ -68,7 +65,7 @@ deployment:
     # -- Container image digest
     digest: ""
     # -- Container image tag. Either "tag" or "digest" should defined
-    tag: "7.0.0"
+    tag: "7.1.0"
     # -- Refer to the Kubernetes documentation on updating images (Ref: https://kubernetes.io/docs/concepts/containers/images/#updating-images)
     pullPolicy: "Always"
     # -- image pull secret name
@@ -82,7 +79,7 @@ deployment:
   # -- Number of deployment replicas
   replicas: 1
   # -- Additional volumeMounts to the pods. All the configuration mounts should be done under the path "/home/wso2carbon/wso2-config-volume/"
-  extraVolumeMounts: [ ]
+  extraVolumeMounts: []
   #  - name: custom-property-file
   #    mountPath: /home/wso2carbon/wso2-config-volume/repository/conf/custom-property-file.properties
   #    subPath: custom-property-file.properties
@@ -98,7 +95,7 @@ deployment:
     # -- Run as user ID
     runAsUser: 802
     seccompProfile:
-    # --  Seccomp profile type
+      # --  Seccomp profile type
       type: "RuntimeDefault"
   hpa:
     # -- Enable HPA for the deployment
@@ -154,11 +151,9 @@ deployment:
       # -- JVM memory options
       memOpts: "-Xms2048m -Xmx2048m"
       # -- JVM parameters
-      javaOpts: -Djdk.tls.ephemeralDHKeySize=2048 -Djdk.tls.rejectClientInitiatedRenegotiation=true
-        -Dhttpclient.hostnameVerifier=Strict -Djdk.tls.client.protocols=TLSv1.2
-        -Djava.util.prefs.systemRoot=/home/wso2carbon/.java -Djava.util.prefs.userRoot=/home/wso2carbon/.java/.userPrefs
+      javaOpts: -Djdk.tls.ephemeralDHKeySize=2048 -Djdk.tls.rejectClientInitiatedRenegotiation=true -Dhttpclient.hostnameVerifier=Strict -Djdk.tls.client.protocols=TLSv1.2 -Djava.util.prefs.systemRoot=/home/wso2carbon/.java -Djava.util.prefs.userRoot=/home/wso2carbon/.java/.userPrefs
   # -- Product version
-  buildVersion: "7.0.0"
+  buildVersion: "7.1.0"
   # -- Product pack name
   productPackName: "wso2is"
   # -- Enable correlation logs
@@ -214,14 +209,13 @@ deployment:
         secretName: "INTERNAL-KEYSTORE-PASSWORD-DECRYPTED"
       # -- The name of the Kubernetes secret that contains the service principal credentials to access Azure Key Vault. Ref: https://azure.github.io/secrets-store-csi-driver-provider-azure/docs/configurations/identity-access-modes/service-principal-mode/#configure-service-principal-to-access-keyvault
       nodePublishSecretRef: "azure-kv-secret-store-sp"
-    aws: 
+    aws:
       enabled: true
       secretManager:
         # -- AWS Secret Manager secret name of the internal keystore password
         secretName: "INTERNAL-KEYSTORE-PASSWORD-DECRYPTED"
         # -- Region of the deployment
         region: ""
-
 deploymentToml:
   server:
     # -- Change default ports(Ref: https://is.docs.wso2.com/en/latest/references/default-ports-of-wso2-products/#:~:text=For%20each%20additional%20WSO2%20product,to%20the%20server%20during%20startup.)
@@ -272,12 +266,12 @@ deploymentToml:
       driver: "org.h2.Driver"
       # -- The database pool options
       poolOptions:
-#        maxActive: "50"
-#        maxWait: "60000"
-#        minIdle: "10"
-#        validationInterval: "30000"
-#        defaultAutoCommit: true
-#        commitOnReturn: false
+      #        maxActive: "50"
+      #        maxWait: "60000"
+      #        minIdle: "10"
+      #        validationInterval: "30000"
+      #        defaultAutoCommit: true
+      #        commitOnReturn: false
     shared:
       # -- The SQL server type(ex: mysql, mssql)
       type: "h2"
@@ -291,12 +285,12 @@ deploymentToml:
       driver: "org.h2.Driver"
       # -- The database pool options
       poolOptions:
-#          maxActive: "50"
-#          maxWait: "60000"
-#          minIdle: "10"
-#          validationInterval: "30000"
-#          defaultAutoCommit: true
-#          commitOnReturn: false
+      #          maxActive: "50"
+      #          maxWait: "60000"
+      #          minIdle: "10"
+      #          validationInterval: "30000"
+      #          defaultAutoCommit: true
+      #          commitOnReturn: false
     user:
       # -- The SQL server type(ex: mysql, mssql)
       type: "h2"
@@ -310,12 +304,12 @@ deploymentToml:
       driver: "org.h2.Driver"
       # -- The database pool options
       poolOptions:
-#          maxActive: "50"
-#          maxWait: "60000"
-#          minIdle: "10"
-#          validationInterval: "30000"
-#          defaultAutoCommit: true
-#          commitOnReturn: false
+      #          maxActive: "50"
+      #          maxWait: "60000"
+      #          minIdle: "10"
+      #          validationInterval: "30000"
+      #          defaultAutoCommit: true
+      #          commitOnReturn: false
     consent:
       # -- The SQL server type(ex: mysql, mssql)
       type: "h2"
@@ -329,35 +323,35 @@ deploymentToml:
       driver: "org.h2.Driver"
       # -- The database pool options
       poolOptions:
-#        maxActive: "80"
-#        maxWait: "60000"
-#        minIdle: "5"
-#        testOnBorrow: true
-#        validationQuery: "SELECT 1"
-#        validationInterval: "30000"
-#        defaultAutoCommit: false
+      #        maxActive: "80"
+      #        maxWait: "60000"
+      #        minIdle: "5"
+      #        testOnBorrow: true
+      #        validationQuery: "SELECT 1"
+      #        validationInterval: "30000"
+      #        defaultAutoCommit: false
   keystore:
     tls:
-      fileName: "wso2carbon.jks"
-      type: "JKS"
+      fileName: "wso2carbon.p12"
+      type: "PKCS12"
       password: "wso2carbon"
       alias: "wso2carbon"
       keyPassword: "wso2carbon"
     primary:
-      fileName: "wso2carbon.jks"
-      type: "JKS"
+      fileName: "wso2carbon.p12"
+      type: "PKCS12"
       password: "wso2carbon"
       alias: "wso2carbon"
       keyPassword: "wso2carbon"
     internal:
-      fileName: "wso2carbon.jks"
-      type: "JKS"
+      fileName: "wso2carbon.p12"
+      type: "PKCS12"
       password: "wso2carbon"
       alias: "wso2carbon"
       keyPassword: "wso2carbon"
   truststore:
-    fileName: "client-truststore.jks"
-    type: "JKS"
+    fileName: "client-truststore.p12"
+    type: "PKCS12"
     password: "wso2carbon"
   recaptcha:
     # -- Enable reCAPTCHA. Ref: https://is.docs.wso2.com/en/latest/deploy/configure-recaptcha/
@@ -368,15 +362,15 @@ deploymentToml:
     secretKey: ""
   outputAdapter:
     email:
-     # -- Enable the email sender. Ref: https://is.docs.wso2.com/en/latest/deploy/configure-email-sending/#configure-the-email-sender-globally
-     enabled: false
-     fromAddress: ""
-     username: ""
-     hostname: ""
-     port: 587
-     password: ""
-     enableStartTls: true
-     enableAuthentication: true
+      # -- Enable the email sender. Ref: https://is.docs.wso2.com/en/latest/deploy/configure-email-sending/#configure-the-email-sender-globally
+      enabled: false
+      fromAddress: ""
+      username: ""
+      hostname: ""
+      port: 587
+      password: ""
+      enableStartTls: true
+      enableAuthentication: true
   oauth:
     # -- Enable/Disable the internal token cleanup process. Ref: https://is.docs.wso2.com/en/6.0.0/deploy/remove-unused-tokens-from-the-database/#!
     tokenCleanup: false
@@ -472,8 +466,8 @@ deploymentToml:
     userAccountLockEnabled: false
   # -- Add custom configurations to deployment.toml.
   extraConfigs: #|
-    # [transport.https.properties]
-    # proxyPort = 443
+  # [transport.https.properties]
+  # proxyPort = 443
 # -- K8s API versions for K8s kinds
 k8sKindAPIVersions:
   # -- K8s API version for kind Deployment
