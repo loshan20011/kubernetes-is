@@ -170,45 +170,45 @@ spec:
               protocol: TCP
           volumeMounts:
             - name: {{ template "..fullname" . }}-deployment-toml
-              mountPath: /home/wso2carbon/wso2-config-volume/repository/conf/deployment.toml
+              mountPath: /home/wso2/wso2-config-volume/repository/conf/deployment.toml
               subPath: deployment.toml
             - name: {{ template "..fullname" . }}-thrift-authentication-xml
-              mountPath: /home/wso2carbon/wso2-config-volume/repository/conf/identity/thrift-authentication.xml
+              mountPath: /home/wso2/wso2-config-volume/repository/conf/identity/thrift-authentication.xml
               subPath: thrift-authentication.xml
             {{- if .Values.deployment.externalJKS.enabled }}
             - name: keystores
-              mountPath: /home/wso2carbon/{{ .Values.deployment.productPackName }}-{{ .Values.deployment.buildVersion }}/repository/resources/security/{{ .Values.deploymentToml.truststore.fileName }}
+              mountPath: /home/wso2/{{ .Values.deployment.productPackName }}-{{ .Values.deployment.buildVersion }}/repository/resources/security/{{ .Values.deploymentToml.truststore.fileName }}
               subPath: {{ .Values.deploymentToml.truststore.fileName }}
             - name: keystores
-              mountPath: /home/wso2carbon/{{ .Values.deployment.productPackName }}-{{ .Values.deployment.buildVersion }}/repository/resources/security/{{ .Values.deploymentToml.keystore.internal.fileName }}
+              mountPath: /home/wso2/{{ .Values.deployment.productPackName }}-{{ .Values.deployment.buildVersion }}/repository/resources/security/{{ .Values.deploymentToml.keystore.internal.fileName }}
               subPath: {{ .Values.deploymentToml.keystore.internal.fileName }}
             - name: keystores
-              mountPath: /home/wso2carbon/{{ .Values.deployment.productPackName }}-{{ .Values.deployment.buildVersion }}/repository/resources/security/{{ .Values.deploymentToml.keystore.tls.fileName }}
+              mountPath: /home/wso2/{{ .Values.deployment.productPackName }}-{{ .Values.deployment.buildVersion }}/repository/resources/security/{{ .Values.deploymentToml.keystore.tls.fileName }}
               subPath: {{ .Values.deploymentToml.keystore.tls.fileName }}
             - name: keystores
-              mountPath: /home/wso2carbon/{{ .Values.deployment.productPackName }}-{{ .Values.deployment.buildVersion }}/repository/resources/security/{{ .Values.deploymentToml.keystore.primary.fileName }}
+              mountPath: /home/wso2/{{ .Values.deployment.productPackName }}-{{ .Values.deployment.buildVersion }}/repository/resources/security/{{ .Values.deploymentToml.keystore.primary.fileName }}
               subPath: {{ .Values.deploymentToml.keystore.primary.fileName }}
             {{- end }}
             - name: {{ template "..fullname" . }}-log4j2-properties
-              mountPath: /home/wso2carbon/wso2-config-volume/repository/conf/log4j2.properties
+              mountPath: /home/wso2/wso2-config-volume/repository/conf/log4j2.properties
               subPath: log4j2.properties
             {{- if .Values.deployment.secretStore.enabled  }}
             - name: {{ template "..fullname" . }}-secret-config-properties
-              mountPath: /home/wso2carbon/wso2-config-volume/repository/conf/security/secret-conf.properties
+              mountPath: /home/wso2/wso2-config-volume/repository/conf/security/secret-conf.properties
               subPath: secret-conf.properties
             - name: secrets-volume
               mountPath: /mnt/secrets-store
               readOnly: true
             {{- end }}
             - name: {{ template "..fullname" . }}-entrypoint
-              mountPath: /home/wso2carbon/docker-entrypoint.sh
+              mountPath: /home/wso2/docker-entrypoint.sh
               subPath: docker-entrypoint.sh
             {{- if .Values.deployment.persistence.enabled }}
             - name: runtime-persistent-data-storage
-              mountPath: /home/wso2carbon/{{ .Values.deployment.productPackName }}-{{ .Values.deployment.buildVersion }}/repository/tenants
+              mountPath: /home/wso2/{{ .Values.deployment.productPackName }}-{{ .Values.deployment.buildVersion }}/repository/tenants
               subPath: {{ .Values.deployment.persistence.subPaths.tenants }}
             - name: runtime-persistent-data-storage
-              mountPath: /home/wso2carbon/{{ .Values.deployment.productPackName }}-{{ .Values.deployment.buildVersion }}/repository/deployment/server/userstores
+              mountPath: /home/wso2/{{ .Values.deployment.productPackName }}-{{ .Values.deployment.buildVersion }}/repository/deployment/server/userstores
               subPath: {{ .Values.deployment.persistence.subPaths.userstores }}
             {{- end }}
         {{- if .Values.deployment.extraVolumeMounts }}

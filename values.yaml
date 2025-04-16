@@ -93,7 +93,7 @@ deployment:
   #      name: custom-property-file
   securityContext:
     # -- Run as user ID
-    runAsUser: 802
+    runAsUser: 10001
     seccompProfile:
       # --  Seccomp profile type
       type: "RuntimeDefault"
@@ -151,7 +151,7 @@ deployment:
       # -- JVM memory options
       memOpts: "-Xms2048m -Xmx2048m"
       # -- JVM parameters
-      javaOpts: -Djdk.tls.ephemeralDHKeySize=2048 -Djdk.tls.rejectClientInitiatedRenegotiation=true -Dhttpclient.hostnameVerifier=Strict -Djdk.tls.client.protocols=TLSv1.2 -Djava.util.prefs.systemRoot=/home/wso2carbon/.java -Djava.util.prefs.userRoot=/home/wso2carbon/.java/.userPrefs
+      javaOpts: -Djdk.tls.ephemeralDHKeySize=2048 -Djdk.tls.rejectClientInitiatedRenegotiation=true -Dhttpclient.hostnameVerifier=Strict -Djdk.tls.client.protocols=TLSv1.2 -Djava.util.prefs.systemRoot=/home/wso2/.java -Djava.util.prefs.userRoot=/home/wso2carbon/.java/.userPrefs
   # -- Product version
   buildVersion: "7.1.0"
   # -- Product pack name

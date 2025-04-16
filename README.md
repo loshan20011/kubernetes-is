@@ -417,7 +417,7 @@ helm install "$RELEASE_NAME" wso2/identity-server --version 7.0.0-1  -n "${NAMES
 | deployment.secretStore.azure.keyVault.tenantId | string | `""` | Azure Active Directory tenant ID of the target Key Vault |
 | deployment.secretStore.azure.nodePublishSecretRef | string | `"azure-kv-secret-store-sp"` | The name of the Kubernetes secret that contains the service principal credentials to access Azure Key Vault. Ref: https://azure.github.io/secrets-store-csi-driver-provider-azure/docs/configurations/identity-access-modes/service-principal-mode/#configure-service-principal-to-access-keyvault |
 | deployment.secretStore.enabled | bool | `false` | Enable secure vault with secret store CSI driver |
-| deployment.securityContext.runAsUser | int | `802` | Run as user ID |
+| deployment.securityContext.runAsUser | int | `10001` | Run as user ID |
 | deployment.securityContext.seccompProfile.type | string | `"RuntimeDefault"` | Seccomp profile type |
 | deployment.startupProbe | object | `{"failureThreshold":30,"initialDelaySeconds":60,"periodSeconds":5}` | Startup probe executed prior to Liveness Probe taking over |
 | deployment.startupProbe.failureThreshold | int | `30` | Number of attempts |
