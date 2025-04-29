@@ -1,34 +1,43 @@
-# templates/wait-for-pvc-job.yaml
+# Example: charts/pv-pvc/templates/wait-for-bound.yaml
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: wait-for-pvc
+  # Ensure name is unique if using helpers, add namespace
+  name: {{ .Release.Name }}-wait-for-pvc-job # Example unique name
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}-pvc-wait
   annotations:
     "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "0" # Ensure it runs after RBAC if weighted
     "helm.sh/hook-delete-policy": hook-succeeded
 spec:
   template:
+    metadata:
+       labels:
+          app: {{ .Release.Name }}-pvc-wait # Match labels for consistency
+          job-name: {{ .Release.Name }}-wait-for-pvc-job
     spec:
+      serviceAccountName: {{ .Release.Name }}-pvc-wait-sa # MUST MATCH the SA name created in wait-rbac.yaml
+      # --- *** ---
       containers:
         - name: wait
-          image: bitnami/kubectl:latest
+          image: bitnami/kubectl:latest # Consider using a specific version tag
           command:
             - /bin/sh
             - -c
             - |
-              # --- Use the CORRECT helper template defined in the parent chart ---
-              PVC_NAME="{{ template "..fullname" . }}"
-              # ---
+              # Use the parent chart's fullname helper template if PVC uses it
+              PVC_NAME="{{ include "..fullname" . }}"
               NAMESPACE="{{ .Release.Namespace }}"
               echo "Waiting up to 5m for PVC $PVC_NAME in namespace $NAMESPACE to be Bound..."
-              # Using kubectl wait is cleaner
-              if kubectl wait pvc "$PVC_NAME" -n "$NAMESPACE" --for=condition=Bound --timeout=1m; then
+              if kubectl wait pvc "$PVC_NAME" -n "$NAMESPACE" --for=condition=Bound --timeout=5m; then
                 echo "PVC $PVC_NAME is Bound!"
                 exit 0
               else
                 echo "Error: Timeout waiting for PVC $PVC_NAME to become Bound." >&2
-                # Log details on failure
-                kubectl get pvc "$PVC_NAME" -n "$NAMESPACE" -o yaml
+                kubectl get pvc "$PVC_NAME" -n "$NAMESPACE" -o yaml # Log PVC status on failure
                 exit 1
               fi
       restartPolicy: Never
+      # Add securityContext etc. if needed
