@@ -16,15 +16,18 @@ spec:
             - /bin/sh
             - -c
             - |
-              PVC_NAME="{{ include "pv-pvc.fullname" . }}" # Use subchart's fullname helper
+              # --- Use the CORRECT helper template defined in the parent chart ---
+              PVC_NAME="{{ include "..fullname" . }}"
+              # ---
               NAMESPACE="{{ .Release.Namespace }}"
               echo "Waiting up to 5m for PVC $PVC_NAME in namespace $NAMESPACE to be Bound..."
+              # Using kubectl wait is cleaner
               if kubectl wait pvc "$PVC_NAME" -n "$NAMESPACE" --for=condition=Bound --timeout=1m; then
                 echo "PVC $PVC_NAME is Bound!"
                 exit 0
               else
                 echo "Error: Timeout waiting for PVC $PVC_NAME to become Bound." >&2
-                # Optional: Get PVC details for debugging
+                # Log details on failure
                 kubectl get pvc "$PVC_NAME" -n "$NAMESPACE" -o yaml
                 exit 1
               fi
