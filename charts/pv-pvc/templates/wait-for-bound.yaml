@@ -17,7 +17,7 @@ spec:
             - -c
             - |
               # --- Use the CORRECT helper template defined in the parent chart ---
-              PVC_NAME="{{ include "..fullname" . }}"
+              PVC_NAME="{{ template "..fullname" . }}"
               # ---
               NAMESPACE="{{ .Release.Namespace }}"
               echo "Waiting up to 5m for PVC $PVC_NAME in namespace $NAMESPACE to be Bound..."
