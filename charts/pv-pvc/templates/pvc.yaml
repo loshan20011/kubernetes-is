@@ -21,6 +21,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: {{ template "..fullname" . }}
   namespace : {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-delete-policy": hook-succeeded
 spec:
   accessModes:
     - ReadWriteMany

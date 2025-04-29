@@ -1,0 +1,25 @@
+# templates/wait-for-pvc-job.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: wait-for-pvc
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    spec:
+      containers:
+        - name: wait
+          image: bitnami/kubectl:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "Waiting for PVC to be bound..."
+              while [ "$(kubectl get pvc data-pvc -o jsonpath='{.status.phase}')" != "Bound" ]; do
+                echo "Still waiting..."
+                sleep 2
+              done
+              echo "PVC is bound!"
+      restartPolicy: Never
