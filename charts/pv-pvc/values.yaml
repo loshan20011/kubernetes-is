@@ -25,7 +25,10 @@ deployment:
       enabled: true
       # -- EFS volume handle ID
       volumeHandle: ""
-
+  rbac:
+    annotations:
+      eks.amazonaws.com/role-arn: "null"
+      
 # -- K8s API versions for K8s kinds
 k8sKindAPIVersions:
   # -- K8s API version for kind PersistentVolumeClaim
