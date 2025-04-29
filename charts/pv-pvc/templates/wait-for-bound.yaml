@@ -16,10 +16,16 @@ spec:
             - /bin/sh
             - -c
             - |
-              echo "Waiting for PVC to be bound..."
-              while [ "$(kubectl get pvc {{ include "..fullname" . }} -n {{ .Release.Namespace }} -o jsonpath='{.status.phase}')" != "Bound" ]; do
-                echo "Still waiting..."
-                sleep 2
-              done
-              echo "PVC is bound!"
+              PVC_NAME="{{ include "pv-pvc.fullname" . }}" # Use subchart's fullname helper
+              NAMESPACE="{{ .Release.Namespace }}"
+              echo "Waiting up to 5m for PVC $PVC_NAME in namespace $NAMESPACE to be Bound..."
+              if kubectl wait pvc "$PVC_NAME" -n "$NAMESPACE" --for=condition=Bound --timeout=1m; then
+                echo "PVC $PVC_NAME is Bound!"
+                exit 0
+              else
+                echo "Error: Timeout waiting for PVC $PVC_NAME to become Bound." >&2
+                # Optional: Get PVC details for debugging
+                kubectl get pvc "$PVC_NAME" -n "$NAMESPACE" -o yaml
+                exit 1
+              fi
       restartPolicy: Never
