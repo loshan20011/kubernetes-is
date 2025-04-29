@@ -67,7 +67,6 @@ subjects:
 - kind: ServiceAccount
   name: {{ .Release.Name }}-pvc-wait-sa
   namespace: {{ .Release.Namespace }}
-{{- end }}
   storageClassName: ""
 {{- end }}
 {{- end }}
