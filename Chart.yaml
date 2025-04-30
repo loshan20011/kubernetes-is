@@ -20,8 +20,3 @@ description: A Helm chart for WSO2 Identity server
 type: application
 version: 7.1.0-1
 appVersion: "7.1.0"
-dependencies:
-  - name: pv-pvc
-    version: 7.1.0-1
-    repository: file://charts/pv-pvc
-    condition: deployment.persistence.aws.enabled

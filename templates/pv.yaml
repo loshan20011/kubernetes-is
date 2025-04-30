@@ -41,3 +41,28 @@ spec:
     - cache=strict
 {{- end }}
 {{- end }}
+---
+{{- if .Values.deployment.persistence.enabled }}
+{{- if .Values.deployment.persistence.aws.enabled }}
+apiVersion: {{ .Values.k8sKindAPIVersions.persistentVolume }}
+kind: PersistentVolume
+metadata:
+  name: {{ template "..fullname" . }}
+  labels:
+    purpose: {{ template "..fullname" . }}-identity-server-persistence
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "-3"
+    "helm.sh/hook-delete-policy": before-hook-creation
+spec:
+  accessModes:
+    - ReadWriteMany
+  capacity:
+    storage: {{ .Values.deployment.persistence.capacity }}
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  csi:
+    driver: efs.csi.aws.com
+    volumeHandle: {{ .Values.deployment.persistence.aws.volumeHandle }}
+{{- end }}
+{{- end }}
