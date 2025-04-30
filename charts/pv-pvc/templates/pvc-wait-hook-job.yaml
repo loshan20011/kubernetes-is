@@ -1,0 +1,62 @@
+{{- if .Values.deployment.persistence.enabled }}
+# Copyright (c) 2024, WSO2 LLC. (https://www.wso2.com) All Rights Reserved.
+#
+# WSO2 LLC. licenses this file to you under the Apache License,
+# Version 2.0 (the "License"); you may not use this file except
+# in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied. See the License for the
+# specific language governing permissions and limitations
+# under the License.
+
+{{- if .Values.deployment.persistence.aws.enabled }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  # Ensure name is unique if using helpers, add namespace
+  name: {{ .Release.Name }}-wait-for-pvc-job # Example unique name
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}-pvc-wait
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "0" # Ensure it runs after RBAC if weighted
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+       labels:
+          app: {{ .Release.Name }}-pvc-wait # Match labels for consistency
+          job-name: {{ .Release.Name }}-wait-for-pvc-job
+    spec:
+      serviceAccountName: {{ .Release.Name }}-pvc-wait-sa # MUST MATCH the SA name created in wait-rbac.yaml
+      # --- *** ---
+      containers:
+        - name: wait
+          image: bitnami/kubectl:latest # Consider using a specific version tag
+          command:
+            - /bin/sh
+            - -c
+            - |
+              # Use the parent chart's fullname helper template if PVC uses it
+              PVC_NAME="{{ template "..fullname" . }}"
+              NAMESPACE="{{ .Release.Namespace }}"
+              echo "Waiting up to 5m for PVC $PVC_NAME in namespace $NAMESPACE to be Bound..."
+              if kubectl wait pvc "$PVC_NAME" -n "$NAMESPACE" --for=condition=Bound --timeout=5m; then
+                echo "PVC $PVC_NAME is Bound!"
+                exit 0
+              else
+                echo "Error: Timeout waiting for PVC $PVC_NAME to become Bound." >&2
+                kubectl get pvc "$PVC_NAME" -n "$NAMESPACE" -o yaml # Log PVC status on failure
+                exit 1
+              fi
+      restartPolicy: Never
+{{- end }}
+{{- end }}
