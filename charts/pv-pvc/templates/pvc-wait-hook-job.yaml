@@ -43,16 +43,15 @@ spec:
             - /bin/sh
             - -c
             - |
-              # Use the parent chart's fullname helper template if PVC uses it
               PVC_NAME="{{ template "..fullname" . }}"
               NAMESPACE="{{ .Release.Namespace }}"
-              echo "Waiting up to 5m for PVC $PVC_NAME in namespace $NAMESPACE to be Bound..."
+              echo "Waiting up to 1m for PVC $PVC_NAME in namespace $NAMESPACE to be Bound..."
               if kubectl wait pvc "$PVC_NAME" -n "$NAMESPACE" --for=jsonpath='{.status.phase}'=Bound --timeout=1m; then
                 echo "PVC $PVC_NAME is Bound!"
                 exit 0
               else
                 echo "Error: Timeout waiting for PVC $PVC_NAME to become Bound." >&2
-                kubectl get pvc "$PVC_NAME" -n "$NAMESPACE" -o yaml # Log PVC status on failure
+                kubectl get pvc "$PVC_NAME" -n "$NAMESPACE" -o yaml 
                 exit 1
               fi
       restartPolicy: Never
