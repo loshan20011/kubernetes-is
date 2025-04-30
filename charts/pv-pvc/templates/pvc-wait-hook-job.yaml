@@ -50,7 +50,7 @@ spec:
               NAMESPACE="{{ .Release.Namespace }}"
               sleep 10
               echo "Waiting up to 5m for PVC $PVC_NAME in namespace $NAMESPACE to be Bound..."
-              if kubectl wait pvc "$PVC_NAME" -n "$NAMESPACE" --for=condition=Bound --timeout=5m; then
+              if kubectl wait pvc "$PVC_NAME" -n "$NAMESPACE" --for=condition=Bound --timeout=1m; then
                 echo "PVC $PVC_NAME is Bound!"
                 exit 0
               else
