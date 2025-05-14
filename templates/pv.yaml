@@ -48,6 +48,7 @@ apiVersion: {{ .Values.k8sKindAPIVersions.persistentVolume }}
 kind: PersistentVolume
 metadata:
   name: {{ template "..fullname" . }}
+  namespace : {{ .Release.Namespace }}
   labels:
     purpose: {{ template "..fullname" . }}-identity-server-persistence
   annotations:
