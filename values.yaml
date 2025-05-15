@@ -164,7 +164,7 @@ deployment:
       # -- JVM parameters
       javaOpts: -Djdk.tls.ephemeralDHKeySize=2048 -Djdk.tls.rejectClientInitiatedRenegotiation=true
         -Dhttpclient.hostnameVerifier=Strict -Djdk.tls.client.protocols=TLSv1.2
-        -Djava.util.prefs.systemRoot=/home/wso2carbon/.java -Djava.util.prefs.userRoot=/home/wso2carbon/.java/.userPrefs
+        -Djava.util.prefs.systemRoot=/home/wso2/.java -Djava.util.prefs.userRoot=/home/wso2/.java/.userPrefs
   # -- Product version
   buildVersion: "7.1.0"
   # -- Product pack name
