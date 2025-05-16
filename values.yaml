@@ -99,7 +99,7 @@ deployment:
   securityContext:
     # -- Run as user ID
     runAsUser:
-      uid: 802
+      uid: 10001
       enabled: true
     seccompProfile:
       enabled: true
