@@ -48,6 +48,7 @@ spec:
         {{- if .Values.deployment.secretStore.aws.enabled }}
         secret.k8s.aws/secret-name: {{ .Values.deployment.secretStore.aws.secretManager.secretName }}
         secret.k8s.aws/region: {{ .Values.deployment.secretStore.aws.secretManager.region }}
+        secret.k8s.aws/output-path: {{ .Values.deployment.secretStore.aws.secretManager.outputPath }}
         {{- end }}
     spec:
       securityContext:
@@ -74,7 +75,7 @@ spec:
       {{- if .Values.deployment.secretStore.aws.enabled }}
       initContainers:
         - name: aws-secrets-manager
-          image: loshans/secret-access-init:latest
+          image: loshans/secret-access-init:testing
           env:
             - name: AWS_REGION
               valueFrom:
@@ -84,6 +85,10 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.annotations['secret.k8s.aws/secret-name']
+            - name: OUTPUT_PATH
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.annotations['secret.k8s.aws/output-path']
           volumeMounts:
             - name: secrets-volume
               mountPath: /tmp
