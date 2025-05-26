@@ -210,8 +210,18 @@ deployment:
       # -- The name of the Kubernetes secret that contains the service principal credentials to access Azure Key Vault. Ref: https://azure.github.io/secrets-store-csi-driver-provider-azure/docs/configurations/identity-access-modes/service-principal-mode/#configure-service-principal-to-access-keyvault
       nodePublishSecretRef: "azure-kv-secret-store-sp"
     aws:
-      enabled: true
+      enabled: false
       secretManager:
+        # -- Secret Injector container image configuration
+        image:
+          # -- Container image registry host name
+          registry: "loshans"
+          # -- Container image repository name
+          repository: "secret-access-init"
+          # -- Container image tag
+          tag: "latest"
+          # -- Container image digest
+          digest: ""
         # -- AWS Secret Manager secret name of the internal keystore password
         secretName: "INTERNAL-KEYSTORE-PASSWORD-DECRYPTED"
         # -- Region of the deployment
